@@ -32,13 +32,14 @@ npm run build
 yarn build
 ```
 
-## ⚙️ Deployment
+## 🏗️ Monolithic Deployment (Full App)
 
-Strapi gives you many possible deployment options for your project including [Strapi Cloud](https://cloud.strapi.io). Browse the [deployment section of the documentation](https://docs.strapi.io/dev-docs/deployment) to find the best solution for your use case.
+The frontend application has been integrated into the Strapi `public` folder. This means you can serve both the API and the Website from the same server.
 
-```
-yarn strapi deploy
-```
+- **Frontend URL**: `http://localhost:1337/` (or your production URL)
+- **Admin Panel**: `http://localhost:1337/admin`
+
+To deploy to production, simply build the project (`npm run build`) and deploy the `dreamhomes-cms` folder to your provider of choice (Heroku, Railway, Strapi Cloud, etc.).
 
 ## 📚 Learn more
 
