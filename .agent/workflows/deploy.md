@@ -1,35 +1,39 @@
 ---
-description: Deploy the DreamHomes website
+description: Deploy the DreamHomes website (Railway for Strapi, Vercel for Frontend)
 ---
 
-# Deploy Guidelines
+### 🚀 Production Deployment Workflow
 
-## Static Deployment (Frontend Only)
+Follow these steps to deploy the decoupled architecture.
 
-1.  **Netlify / Vercel**:
-    *   Drag and drop the `Web Dev` folder to Netlify Drop or import via GitHub on Vercel.
-    *   Ensure the build command is empty (it's static HTML/CSS/JS).
-    *   Publish directory is `./` (root).
+#### Part 1: Strapi CMS (Railway)
+1. **Prepare Repository**: Ensure your project is pushed to GitHub.
+2. **Connect Railway**: Login to [Railway.app](https://railway.app) and create a "New Project".
+3. **Select Repository**: Search for your `DreamHomes` repo.
+4. **Subdirectory**: Set the root directory for this service to `dreamhomes-cms`.
+5. **PostgreSQL**: Railway will prompt to add a database. Add **PostgreSQL**.
+6. **Env Vars**: Railway automatically maps variables, but ensure these are set:
+   - `DATABASE_URL`: (Mapped from PostgreSQL)
+   - `APP_KEYS`: (Generate 4 random strings)
+   - `API_TOKEN_SALT`: (Random string)
+   - `ADMIN_JWT_SECRET`: (Random string)
+   - `TRANSFER_TOKEN_SALT`: (Random string)
+   - `JWT_SECRET`: (Random string)
+   - `NODE_ENV`: `production`
 
-2.  **GitHub Pages**:
-    *   Push the code to a GitHub repository.
-    *   Go to Settings > Pages.
-    *   Select `main` branch and `/root` folder.
+#### Part 2: Frontend (Vercel)
+1. **Connect Vercel**: Login to [Vercel.com](https://vercel.com) and click "Add New" > "Project".
+2. **Select Repository**: Select the same `DreamHomes` repo.
+3. **Framework Preset**: Select **Other** or **Vanilla HTML**.
+4. **Ignored Files**: Ensure `dreamhomes-cms` folder is NOT being built as part of the frontend. (Vercel handles this by ignoring non-static files if you select the root).
+5. **Final Step**: Copy the Vercel URL (e.g., `dreamhomes.vercel.app`).
 
-## Full Stack Deployment (With Strapi)
+#### Part 3: Connect the Two
+1. **Update Strapi CORS**: In Railway, add an Env Var `CORS_ORIGIN` and set it to your Vercel URL.
+2. **Update Frontend Config**: 
+   - Locally, the `js/config.js` is already dynamic. 
+   - However, for production, make sure you don't have to manually edit files. The current logic in `js/config.js` will fallback to the current origin if not localhost, which is perfect if you host them separately but want them to be flexible!
 
-1.  **Backend (Strapi)**:
-    *   Follow instructions in `backend/README.md`.
-    *   Deploy Strapi to Heroku, Railway, or DigitalOcean App Platform.
-    *   Update `strapi-api.js` with your production Strapi URL.
+---
 
-2.  **Frontend**:
-    *   Deploy the frontend as above.
-    *   Update `script.js` to enable dynamic content fetching (uncomment `initStrapiContent()` call).
-
-## Post-Deployment Checklist
-
-- [ ] Verify Contact Form (EmailJS)
-- [ ] Check WhatsApp link works on mobile
-- [ ] verify Google Analytics firing
-- [ ] Test Cookie Consent persistence
+**Tip**: Always run `/sync` after a deployment to verify the production connection.
