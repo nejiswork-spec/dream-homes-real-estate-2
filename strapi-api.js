@@ -5,7 +5,7 @@
 
 // Configuration - Update these for production
 const CONFIG = {
-    STRAPI_URL: 'http://127.0.0.1:1337',
+    STRAPI_URL: 'https://dream-homes-real-estate-2-production.up.railway.app',
     API_TOKEN: '', // Optional: Add if using authenticated requests
 };
 
