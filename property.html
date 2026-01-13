@@ -26,7 +26,7 @@
                 <li><a href="contact.html">Contact</a></li>
                 <li><a href="contact.html" class="nav-cta">Get Started</a></li>
             </ul>
-            <div class="menu-toggle" id="menuToggle" onclick="toggleMenu()"><span></span><span></span><span></span>
+            <div class="menu-toggle" id="menuToggle"><span></span><span></span><span></span>
             </div>
         </nav>
     </header>
@@ -35,8 +35,8 @@
         <div class="property-gallery">
             <img id="mainImage" src="images/villa.png" alt="Property" loading="lazy">
             <div class="gallery-nav">
-                <button class="gallery-btn prev" onclick="prevImage()">❮</button>
-                <button class="gallery-btn next" onclick="nextImage()">❯</button>
+                <button class="gallery-btn prev">❮</button>
+                <button class="gallery-btn next">❯</button>
             </div>
             <span class="property-badge" id="propertyBadge">Featured</span>
         </div>
@@ -140,82 +140,7 @@
         </svg>
     </a>
 
-    <!-- Cookie Consent -->
-    <div class="cookie-consent" id="cookieConsent">
-        <div class="cookie-content">
-            <p>🍪 We use cookies. <a href="privacy.html">Learn more</a></p>
-            <div class="cookie-actions">
-                <button class="btn btn-primary" onclick="acceptCookies()">Accept</button>
-                <button class="btn btn-outline" onclick="declineCookies()">Decline</button>
-            </div>
-        </div>
-    </div>
-
-    <script src="strapi-api.js"></script>
-    <script src="script.js"></script>
-    <script>
-        // Load property from URL params
-        // Load property from URL params
-        document.addEventListener('DOMContentLoaded', async () => {
-            const params = new URLSearchParams(window.location.search);
-            const id = params.get('id');
-
-            if (id) {
-                try {
-                    // Try to fetch from Strapi first
-                    const p = await fetchPropertyById(id);
-                    if (p) {
-                        document.getElementById('propertyTitle').textContent = p.title;
-                        document.getElementById('propertyLocation').innerHTML = `<svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"/><circle cx="12" cy="10" r="3"/></svg> ${p.location}`;
-                        document.getElementById('propertyPrice').textContent = p.price;
-                        document.getElementById('propertyDescription').textContent = p.description;
-                        document.getElementById('mainImage').src = p.image;
-                        document.getElementById('propertyBadge').textContent = p.badge || (p.listing_status === 'for-sale' ? 'For Sale' : p.listing_status);
-
-                        // Update features
-                        const featuresHtml = `
-                            <div class="feature-item">🛏️ ${p.beds} Bedrooms</div>
-                            <div class="feature-item">🛁 ${p.baths} Bathrooms</div>
-                            <div class="feature-item">📐 ${p.area} sqm</div>
-                            <div class="feature-item">🏠 ${p.type}</div>
-                        `;
-                        document.querySelector('.property-features-grid').innerHTML = featuresHtml;
-
-                        // Update amenities if they exist
-                        if (p.amenities) {
-                            // Handle distinct formats (string list vs array)
-                            const amenitiesList = Array.isArray(p.amenities) ? p.amenities : p.amenities.split(',').map(s => s.trim());
-                            // Find the container (assuming it exists, otherwise skip)
-                            const amenitiesContainer = document.querySelector('.amenities-list');
-                            if (amenitiesContainer) {
-                                amenitiesContainer.innerHTML = amenitiesList.map(a => `<li>✅ ${a}</li>`).join('');
-                            }
-                        }
-
-                        document.title = `${p.title} - DreamHomes`;
-                    }
-                } catch (error) {
-                    console.error('Could not load from API, falling back to static or showing error', error);
-                }
-            }
-        });
-
-        function shareProperty(platform) {
-            const url = encodeURIComponent(window.location.href);
-            const text = encodeURIComponent(document.getElementById('propertyTitle').textContent);
-            const links = {
-                facebook: `https://facebook.com/sharer/sharer.php?u=${url}`,
-                twitter: `https://twitter.com/intent/tweet?url=${url}&text=${text}`,
-                whatsapp: `https://wa.me/?text=${text}%20${url}`
-            };
-            window.open(links[platform], '_blank');
-        }
-
-        function copyLink() {
-            navigator.clipboard.writeText(window.location.href);
-            alert('Link copied!');
-        }
-    </script>
+    <script type="module" src="js/main.js"></script>
 </body>
 
 </html>
