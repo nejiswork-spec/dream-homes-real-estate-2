@@ -1,0 +1,41 @@
+{
+    "kind": "collectionType",
+    "collectionName": "agents",
+    "info": {
+        "singularName": "agent",
+        "pluralName": "agents",
+        "displayName": "Agent",
+        "description": "Real estate agents"
+    },
+    "options": {
+        "draftAndPublish": true
+    },
+    "pluginOptions": {},
+    "attributes": {
+        "name": {
+            "type": "string",
+            "required": true
+        },
+        "email": {
+            "type": "email",
+            "required": true
+        },
+        "phone": {
+            "type": "string",
+            "required": true
+        },
+        "photo": {
+            "type": "media",
+            "multiple": false,
+            "required": false,
+            "allowedTypes": [
+                "images"
+            ]
+        },
+        "properties": {
+            "type": "relation",
+            "relation": "oneToMany",
+            "target": "api::property.property"
+        }
+    }
+}

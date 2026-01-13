@@ -1,0 +1,35 @@
+{
+    "kind": "collectionType",
+    "collectionName": "inquiries",
+    "info": {
+        "singularName": "inquiry",
+        "pluralName": "inquiries",
+        "displayName": "Inquiry",
+        "description": "Contact form inquiries"
+    },
+    "options": {
+        "draftAndPublish": false
+    },
+    "pluginOptions": {},
+    "attributes": {
+        "name": {
+            "type": "string",
+            "required": true
+        },
+        "email": {
+            "type": "email",
+            "required": true
+        },
+        "phone": {
+            "type": "string"
+        },
+        "message": {
+            "type": "text",
+            "required": true
+        },
+        "property_interest": {
+            "type": "string",
+            "description": "Name or ID of property interested in"
+        }
+    }
+}

@@ -1,0 +1,22 @@
+# Node
+node_modules/
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+.env
+.env.local
+
+# Strapi
+.cache/
+build/
+.tmp/
+dist/
+.strapi/
+.strapi-updater.json
+
+# Backups
+backend_backup/
+
+# OS
+.DS_Store
+Thumbs.db
