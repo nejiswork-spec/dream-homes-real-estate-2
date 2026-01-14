@@ -1,0 +1,21 @@
+{
+    "name": "DreamHomes Real Estate",
+    "short_name": "DreamHomes",
+    "description": "Find your dream property in Nigeria.",
+    "start_url": "/index.html",
+    "display": "standalone",
+    "background_color": "#ffffff",
+    "theme_color": "#2563eb",
+    "icons": [
+        {
+            "src": "images/favicon.png",
+            "sizes": "192x192",
+            "type": "image/png"
+        },
+        {
+            "src": "images/favicon.png",
+            "sizes": "512x512",
+            "type": "image/png"
+        }
+    ]
+}

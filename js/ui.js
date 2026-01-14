@@ -143,6 +143,89 @@ export function initFaqAccordions() {
     });
 }
 
+/**
+ * Property Modal Logic
+ */
+export function openPropertyModal(p) {
+    const modal = document.getElementById("propertyModal");
+    if (!modal || !p) return;
+
+    // Populate modal components
+    const modalImg = document.getElementById("modalImage");
+    if (modalImg) modalImg.src = p.image;
+
+    const modalTitle = document.getElementById("modalTitle");
+    if (modalTitle) modalTitle.textContent = p.title;
+
+    const modalLoc = document.getElementById("modalLocation");
+    if (modalLoc) modalLoc.querySelector('span').textContent = p.location;
+
+    const modalPrice = document.getElementById("modalPrice");
+    if (modalPrice) modalPrice.textContent = `₦${p.price}`;
+
+    const modalDesc = document.getElementById("modalDescription");
+    if (modalDesc) modalDesc.textContent = p.description;
+
+    const modalFeat = document.getElementById("modalFeatures");
+    if (modalFeat) {
+        modalFeat.innerHTML = `
+            <div class="modal-feature">🛏️ <span>${p.beds}</span><small>Bedrooms</small></div>
+            <div class="modal-feature">🛁 <span>${p.baths}</span><small>Bathrooms</small></div>
+            <div class="modal-feature">📐 <span>${p.area}</span><small>Area</small></div>
+        `;
+    }
+
+    // Update CTAs if present in index.html
+    const ctaContainer = modal.querySelector('.modal-cta');
+    if (ctaContainer) {
+        ctaContainer.innerHTML = `
+            <a href="property.html?id=${p.id}" class="btn btn-primary">View Full Details</a>
+            <a href="contact.html?propertyId=${p.id}" class="btn btn-outline">Inquire Now</a>
+        `;
+    }
+
+    modal.classList.add("active");
+    document.body.style.overflow = "hidden";
+}
+
+export function closePropertyModal() {
+    const modal = document.getElementById("propertyModal");
+    if (modal) {
+        modal.classList.remove("active");
+        document.body.style.overflow = "auto";
+    }
+}
+
+/**
+ * Cookie Consent Logic
+ */
+export function initCookieConsent() {
+    const banner = document.getElementById('cookieConsent');
+    if (!banner) return;
+
+    if (!localStorage.getItem('cookieAccepted')) {
+        setTimeout(() => banner.classList.add('show'), 2000);
+    }
+
+    const acceptBtn = banner.querySelector('.btn-primary');
+    const declineBtn = banner.querySelector('.btn-outline');
+
+    if (acceptBtn) {
+        acceptBtn.onclick = () => {
+            localStorage.setItem('cookieAccepted', 'true');
+            banner.classList.remove('show');
+            showToast('Preferences saved!', 'success');
+        };
+    }
+
+    if (declineBtn) {
+        declineBtn.onclick = () => {
+            localStorage.setItem('cookieAccepted', 'false');
+            banner.classList.remove('show');
+        };
+    }
+}
+
 function animateCounter(element) {
     const target = parseInt(element.getAttribute("data-target"));
     const duration = 2000;

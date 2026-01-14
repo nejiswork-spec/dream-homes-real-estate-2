@@ -4,6 +4,7 @@
 import { fetchProperties, fetchMetadata } from '../api.js';
 import { renderPropertyCard } from '../properties.js';
 import { initScrollAnimations } from '../ui.js';
+import { initOverviewMap } from '../map.js';
 
 export async function initListingsPage() {
     const propertyGrid = document.getElementById('propertyGrid');
@@ -42,6 +43,9 @@ export async function initListingsPage() {
                 propertyGrid.style.display = 'grid';
                 noResults.style.display = 'none';
                 if (propertyCount) propertyCount.textContent = properties.length;
+
+                // Init Map
+                initOverviewMap('overviewMap', properties);
             } else {
                 propertyGrid.style.display = 'none';
                 noResults.style.display = 'block';

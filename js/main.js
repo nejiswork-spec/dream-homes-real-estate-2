@@ -1,7 +1,16 @@
 /**
  * Main Application Entry Point
  */
-import { initHeaderScroll, initMobileMenu, initScrollAnimations, initCounterAnimations, initFaqAccordions } from './ui.js';
+import {
+    initHeaderScroll,
+    initMobileMenu,
+    initScrollAnimations,
+    initCounterAnimations,
+    initFaqAccordions,
+    initCookieConsent,
+    openPropertyModal,
+    closePropertyModal
+} from './ui.js';
 import { initContactForm } from './contact.js';
 import { initFavoriteButtons } from './properties.js';
 import { fetchFeaturedProperties } from './api.js';
@@ -18,8 +27,12 @@ function initPerformanceHooks() {
     progress.className = 'page-load-progress';
     document.body.appendChild(progress);
 
-    setTimeout(() => progress.style.width = '100%', 100);
-    setTimeout(() => progress.remove(), 1000);
+    setTimeout(() => {
+        if (progress) progress.style.width = '100%';
+    }, 100);
+    setTimeout(() => {
+        if (progress) progress.remove();
+    }, 1000);
 }
 
 function initSEOHooks() {
@@ -53,6 +66,26 @@ document.addEventListener("DOMContentLoaded", async () => {
     initContactForm();
     initPerformanceHooks();
     initSEOHooks();
+    initCookieConsent();
+
+    // Close Modal Logic
+    const closeBtn = document.querySelector('.modal-close');
+    const modalOverlay = document.getElementById('propertyModal');
+    if (closeBtn) closeBtn.onclick = closePropertyModal;
+    if (modalOverlay) {
+        modalOverlay.onclick = (e) => {
+            if (e.target === modalOverlay) closePropertyModal();
+        };
+    }
+
+    // Register Service Worker for Offline Support
+    if ('serviceWorker' in navigator) {
+        window.addEventListener('load', () => {
+            navigator.serviceWorker.register('/sw.js')
+                .then(reg => console.log('SW Registered'))
+                .catch(err => console.log('SW Registration failed', err));
+        });
+    }
 
     const path = window.location.pathname;
 
@@ -64,10 +97,24 @@ document.addEventListener("DOMContentLoaded", async () => {
                 const properties = await fetchFeaturedProperties(3);
                 if (properties && properties.length > 0) {
                     propertyGrid.innerHTML = properties.map((p, i) => renderPropertyCard(p, i)).join('');
+
+                    // Attach Modal Trigger for Homepage only
+                    propertyGrid.addEventListener('click', (e) => {
+                        const viewDetailsBtn = e.target.closest('.btn-outline');
+
+                        if (viewDetailsBtn) {
+                            // Check if it's the specific view details button
+                            e.preventDefault(); // Stop navigation to property.html for modal preview
+                            const pId = viewDetailsBtn.getAttribute('href').split('id=')[1];
+                            const pData = properties.find(p => (p.id == pId || p.documentId == pId));
+                            if (pData) openPropertyModal(pData);
+                        }
+                    });
+
                     initScrollAnimations();
                 }
             } catch (error) {
-                console.log('Homepage: Using fallback static content');
+                console.log('Homepage: Using fallback static content', error);
             }
         }
     }

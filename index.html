@@ -12,6 +12,7 @@
   <!-- Favicon -->
   <link rel="icon" type="image/png" href="images/favicon.png">
   <link rel="apple-touch-icon" href="images/favicon.png">
+  <link rel="manifest" href="manifest.json">
 
   <!-- Open Graph / Facebook -->
   <meta property="og:type" content="website">
@@ -35,8 +36,9 @@
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 
-  <!-- Google Analytics - Replace G-XXXXXXXXXX with your tracking ID -->
-  <!-- Analytics is loaded via JavaScript only after cookie consent -->
+  <!-- Content Security Policy -->
+  <meta http-equiv="Content-Security-Policy"
+    content="default-src 'self'; script-src 'self' 'unsafe-inline' https://unpkg.com https://www.google.com https://www.gstatic.com; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com https://unpkg.com; img-src 'self' data: https://*.tile.openstreetmap.org https://unpkg.com https://*.railway.app; font-src 'self' https://fonts.gstatic.com; connect-src 'self' http://127.0.0.1:1337 http://localhost:1337 https://*.railway.app https://formspree.io;">
 </head>
 
 
@@ -501,7 +503,7 @@
     <div class="modal">
       <div class="modal-header">
         <img id="modalImage" src="" alt="Property">
-        <button class="modal-close" onclick="closePropertyModal()">
+        <button class="modal-close">
           <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
             <line x1="18" y1="6" x2="6" y2="18" />
             <line x1="6" y1="6" x2="18" y2="18" />
@@ -547,8 +549,8 @@
         <a href="privacy.html#cookies">Learn more</a>
       </p>
       <div class="cookie-actions">
-        <button class="btn btn-primary" onclick="acceptCookies()">Accept All</button>
-        <button class="btn btn-outline" onclick="declineCookies()">Decline</button>
+        <button class="btn btn-primary">Accept All</button>
+        <button class="btn btn-outline">Decline</button>
       </div>
     </div>
   </div>

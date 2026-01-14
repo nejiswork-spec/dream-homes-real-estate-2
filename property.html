@@ -7,9 +7,14 @@
     <meta name="description" content="View property details - DreamHomes Real Estate Nigeria">
     <title>Property Details - DreamHomes</title>
     <link rel="icon" type="image/png" href="images/favicon.png">
+    <link rel="manifest" href="manifest.json">
     <link rel="stylesheet" href="style.css">
-    <meta property="og:type" content="website">
-    <meta property="og:site_name" content="DreamHomes">
+    <!-- Leaflet Maps CSS -->
+    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css"
+        integrity="sha256-p4NxAoJBhIIN+hmNHrzRCf9tD/miZyoHS5obTRR9BMY=" crossorigin="" />
+    <!-- CSP Meta Tag -->
+    <meta http-equiv="Content-Security-Policy"
+        content="default-src 'self'; script-src 'self' 'unsafe-inline' https://unpkg.com https://www.google.com https://www.gstatic.com; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com https://unpkg.com; img-src 'self' data: https://*.tile.openstreetmap.org https://unpkg.com https://*.railway.app; font-src 'self' https://fonts.gstatic.com; connect-src 'self' http://127.0.0.1:1337 http://localhost:1337 https://*.railway.app https://formspree.io;">
 
     <!-- Google Analytics - Replace G-XXXXXXXXXX with your tracking ID -->
     <!-- Analytics is loaded via JavaScript only after cookie consent -->
@@ -92,6 +97,14 @@
                     </div>
                 </div>
 
+                <!-- Property Map -->
+                <div class="property-map-section" style="margin-top: 40px;">
+                    <h2>Location</h2>
+                    <div id="propertyMap"
+                        style="height: 400px; width: 100%; border-radius: 16px; margin-top: 20px; box-shadow: var(--shadow-md); z-index: 1;">
+                    </div>
+                </div>
+
                 <div class="property-sidebar">
                     <div class="agent-card">
                         <h3>Interested in this property?</h3>
@@ -113,10 +126,10 @@
                     <div class="share-card">
                         <h4>Share Property</h4>
                         <div class="share-buttons">
-                            <button onclick="shareProperty('facebook')" class="share-btn">📘</button>
-                            <button onclick="shareProperty('twitter')" class="share-btn">🐦</button>
-                            <button onclick="shareProperty('whatsapp')" class="share-btn">💬</button>
-                            <button onclick="copyLink()" class="share-btn">🔗</button>
+                            <button class="share-btn">📘</button>
+                            <button class="share-btn">🐦</button>
+                            <button class="share-btn">💬</button>
+                            <button class="share-btn">🔗</button>
                         </div>
                     </div>
                 </div>
@@ -140,6 +153,8 @@
         </svg>
     </a>
 
+    <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"
+        integrity="sha256-20nQCchB9co0qIjJZRGuk2/Z9VM+kNiyxNV1lvTlZBo=" crossorigin=""></script>
     <script type="module" src="js/main.js"></script>
 </body>
 

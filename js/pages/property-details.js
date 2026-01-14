@@ -1,8 +1,5 @@
-/**
- * Property Details Page Logic
- */
-import { fetchPropertyById } from '../api.js';
-import { showToast } from '../ui.js';
+let currentImageIndex = 0;
+let propertyImages = [];
 
 export async function initPropertyDetailsPage() {
     const params = new URLSearchParams(window.location.search);
@@ -13,8 +10,11 @@ export async function initPropertyDetailsPage() {
     try {
         const p = await fetchPropertyById(id);
         if (p) {
+            propertyImages = [p.image, ...(p.gallery || [])];
             updateUI(p);
+            setupGallery();
             setupShareButtons();
+            initPropertyMap('propertyMap', p);
         }
     } catch (error) {
         console.error('Failed to load property details', error);
@@ -49,6 +49,39 @@ function updateUI(p) {
     }
 
     document.title = `${p.title} - DreamHomes`;
+}
+
+function setupGallery() {
+    const prevBtn = document.querySelector('.gallery-btn.prev');
+    const nextBtn = document.querySelector('.gallery-btn.next');
+    const mainImg = document.getElementById('mainImage');
+
+    if (!prevBtn || !nextBtn || !mainImg) return;
+
+    // Hide navigation if only one image
+    if (propertyImages.length <= 1) {
+        prevBtn.style.display = 'none';
+        nextBtn.style.display = 'none';
+        return;
+    }
+
+    const updateGalleryImage = () => {
+        mainImg.style.opacity = '0.5';
+        setTimeout(() => {
+            mainImg.src = propertyImages[currentImageIndex];
+            mainImg.style.opacity = '1';
+        }, 200);
+    };
+
+    prevBtn.addEventListener('click', () => {
+        currentImageIndex = (currentImageIndex - 1 + propertyImages.length) % propertyImages.length;
+        updateGalleryImage();
+    });
+
+    nextBtn.addEventListener('click', () => {
+        currentImageIndex = (currentImageIndex + 1) % propertyImages.length;
+        updateGalleryImage();
+    });
 }
 
 function setupShareButtons() {

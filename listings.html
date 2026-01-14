@@ -9,6 +9,7 @@
 
   <!-- Favicon -->
   <link rel="icon" type="image/png" href="images/favicon.png">
+  <link rel="manifest" href="manifest.json">
 
   <!-- Open Graph -->
   <meta property="og:type" content="website">
@@ -21,6 +22,14 @@
   <link rel="stylesheet" href="style.css">
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+
+  <!-- Leaflet Maps CSS -->
+  <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css"
+    integrity="sha256-p4NxAoJBhIIN+hmNHrzRCf9tD/miZyoHS5obTRR9BMY=" crossorigin="" />
+
+  <!-- Web Content Security Policy -->
+  <meta http-equiv="Content-Security-Policy"
+    content="default-src 'self'; script-src 'self' 'unsafe-inline' https://unpkg.com https://www.google.com https://www.gstatic.com; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com https://unpkg.com; img-src 'self' data: https://*.tile.openstreetmap.org https://unpkg.com https://*.railway.app; font-src 'self' https://fonts.gstatic.com; connect-src 'self' http://127.0.0.1:1337 http://localhost:1337 https://*.railway.app https://formspree.io;">
 </head>
 
 <body>
@@ -110,6 +119,10 @@
   <!-- Listings Container -->
   <section class="listings-container">
     <div class="container">
+      <!-- Overview Map -->
+      <div id="overviewMap"
+        style="height: 400px; width: 100%; border-radius: 16px; margin-bottom: 40px; box-shadow: var(--shadow-md); z-index: 1;">
+      </div>
       <div class="listings-header">
         <p class="listings-count"><strong id="propertyCount">6</strong> properties found</p>
         <div class="view-toggle">
@@ -595,6 +608,10 @@
     </div>
   </div>
 
+  <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"
+    integrity="sha256-20nQCchB9co0qIjJZRGuk2/Z9VM+kNiyxNV1lvTlZBo=" crossorigin=""></script>
+  <!-- reCAPTCHA -->
+  <script src="https://www.google.com/recaptcha/api.js?render=6LdPHqsqAAAAAFHj_7Hj1-yC0-6J9_D4o-_-_-_-"></script>
   <script type="module" src="js/main.js"></script>
 </body>
 

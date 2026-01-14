@@ -92,26 +92,35 @@ function transformProperty(item) {
 }
 
 export async function submitInquiry(formData) {
+    // Using Formspree as requested by the user
+    // The first time this is submitted, Formspree will send an activation email to nejiswork@gmail.com
+    const formspreeUrl = 'https://formspree.io/f/nejiswork@gmail.com';
+
     const payload = {
-        data: {
-            name: `${formData.firstName || ''} ${formData.lastName || ''}`.trim() || 'Anonymous',
-            email: formData.email,
-            phone: formData.phone || '',
-            message: formData.message || 'No message provided'
-        }
+        name: `${formData.firstName || ''} ${formData.lastName || ''}`.trim() || 'Anonymous',
+        email: formData.email,
+        phone: formData.phone || '',
+        message: formData.message || 'No message provided',
+        _subject: formData.subject || `DreamHomes Inquiry: ${formData.firstName || 'New Lead'}`,
+        property_id: formData.propertyId || 'General Inquiry',
+        recaptcha_token: formData.recaptchaToken || ''
     };
 
-    if (formData.subject || formData.propertyId) {
-        const interest = formData.propertyId ? `Property ID: ${formData.propertyId}` : formData.subject;
-        payload.data.property_interest = interest;
-    }
-
-    const result = await strapiRequest('/inquiries', {
+    const response = await fetch(formspreeUrl, {
         method: 'POST',
-        body: JSON.stringify(payload),
+        headers: {
+            'Content-Type': 'application/json',
+            'Accept': 'application/json'
+        },
+        body: JSON.stringify(payload)
     });
 
-    return { success: true, data: result.data };
+    if (!response.ok) {
+        const errorData = await response.json();
+        throw new Error(errorData.error || 'Failed to send message via Formspree');
+    }
+
+    return { success: true };
 }
 
 export async function fetchMetadata() {
