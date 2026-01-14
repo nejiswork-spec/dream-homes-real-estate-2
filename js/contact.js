@@ -35,13 +35,7 @@ export function initContactForm() {
         submitBtn.disabled = true;
 
         try {
-            // reCAPTCHA v3 protection
-            let recaptchaToken = '';
-            if (typeof grecaptcha !== 'undefined') {
-                recaptchaToken = await grecaptcha.execute('6LdPHqsqAAAAAFHj_7Hj1-yC0-6J9_D4o-_-_-_-', { action: 'contact' });
-            }
-
-            const result = await submitInquiry({ ...formData, recaptchaToken });
+            const result = await submitInquiry(formData);
             if (result && result.success) {
                 contactForm.style.display = "none";
                 const successMessage = document.getElementById("successMessage");
